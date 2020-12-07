@@ -257,4 +257,14 @@ public class CategoryService {
             if (category.getCategoryName().toUpperCase().equals(categoryRequest.getCategoryName().toUpperCase())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category name is not unique.");
         }
     }
+
+    public List<CategoryResponse> getRootCategories() {
+        List<CategoryResponse> categories = new ArrayList<>();
+
+        for (Category category : getCategoriesList())
+        {
+            if (category.getParentCategory() == null) categories.add( new CategoryResponse(category));
+        }
+        return categories;
+    }
 }

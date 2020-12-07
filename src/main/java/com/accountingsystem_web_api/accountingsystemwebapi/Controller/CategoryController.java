@@ -36,6 +36,12 @@ public class CategoryController {
        return service.getCategoryById(id);
     }
 
+    @GetMapping("/categories/0")
+    public List<CategoryResponse> getRootCategories()
+    {
+        return service.getRootCategories();
+    }
+
     @GetMapping("/categories/{parentCategoryID}/")
     public List<CategoryResponse> getCategoriesOfParent(@PathVariable int parentCategoryID)
     {

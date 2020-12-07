@@ -5,6 +5,7 @@ import com.accountingsystem_web_api.accountingsystemwebapi.Model.User;
 import com.accountingsystem_web_api.accountingsystemwebapi.Repository.CategoryRepository;
 import com.accountingsystem_web_api.accountingsystemwebapi.Repository.UserRepository;
 import com.accountingsystem_web_api.accountingsystemwebapi.Request.CategoryRequest;
+import com.accountingsystem_web_api.accountingsystemwebapi.Request.LoginRequest;
 import com.accountingsystem_web_api.accountingsystemwebapi.Request.UserRequest;
 import com.accountingsystem_web_api.accountingsystemwebapi.Response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,5 +171,25 @@ public class UserService {
             if (user.getUsername().equals(userRequest.getUsername()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot update, user with given username already exists");
         }
+    }
+
+    public UserResponse login(LoginRequest loginRequest) {
+
+        if(loginRequest.getUsername() == null || loginRequest.getPassword() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing parameters");
+
+        UserResponse userResponse = null;
+
+        for (User user : getUsersList())
+        {
+            if (user.getUsername().equals(loginRequest.getUsername()) && user.getPassword().equals(loginRequest.getPassword()))
+            {
+                userResponse = new UserResponse(user);
+            }
+        }
+
+        if (userResponse == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+
+        return userResponse;
     }
 }

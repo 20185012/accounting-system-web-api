@@ -2,6 +2,7 @@ package com.accountingsystem_web_api.accountingsystemwebapi.Controller;
 
 
 import com.accountingsystem_web_api.accountingsystemwebapi.Request.CategoryRequest;
+import com.accountingsystem_web_api.accountingsystemwebapi.Request.LoginRequest;
 import com.accountingsystem_web_api.accountingsystemwebapi.Request.UserRequest;
 import com.accountingsystem_web_api.accountingsystemwebapi.Response.UserResponse;
 import com.accountingsystem_web_api.accountingsystemwebapi.Service.UserService;
@@ -39,6 +40,12 @@ public class UserController {
     public UserResponse findUserById(@PathVariable int userID)
     {
         return service.getUserById(userID);
+    }
+
+    @PostMapping("users/login")
+    public UserResponse loginUser(@RequestBody LoginRequest loginRequest)
+    {
+        return service.login(loginRequest);
     }
 
     @PutMapping("/user/{userID}")
